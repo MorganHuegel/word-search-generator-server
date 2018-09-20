@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.getAllPuzzles, name='getAllPuzzles'),
-    path('<int:puzzle_id>', views.getOnePuzzle, name='getOnePuzzle')
+    path('<int:puzzle_id>/', views.getOnePuzzle, name='getOnePuzzle')
 ]
