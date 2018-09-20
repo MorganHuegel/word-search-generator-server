@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from .models import Puzzle
 
 # Create your views here.
@@ -7,10 +7,10 @@ def getAllPuzzles(request):
     allPuzzles = Puzzle.objects.all()
     data = []
     for puzzle in allPuzzles:
-        onePuzzle = {"title": puzzle.title, "wordList": []}
+        onePuzzle = {"id": puzzle.id, "title": puzzle.title, "words": []}
         words = puzzle.getWordList()
         for word in words:
-            onePuzzle["wordList"].append(word.word)
+            onePuzzle["words"].append(word.word)
         data.append(onePuzzle)
         
     return JsonResponse(data, safe=False)
@@ -18,9 +18,7 @@ def getAllPuzzles(request):
     
     
 def getOnePuzzle(request, puzzle_id):
-    puzzle_id = 3 #Take this out once you make Post endpoint
-    currentPuzzle = Puzzle.objects.get(pk=3)
-    title = currentPuzzle.title
+    currentPuzzle = Puzzle.objects.get(pk=puzzle_id)
 
     wordList = []
     for word in currentPuzzle.getWordList():
@@ -35,7 +33,12 @@ def getOnePuzzle(request, puzzle_id):
         matrix.append(newRow)
     
     return JsonResponse({
-        "title": title,
-        "wordList": wordList,
-        "matrix": matrix
+        "id": currentPuzzle.id,
+        "title": currentPuzzle.title,
+        "words": wordList,
+        "puzzle": matrix
         }, safe=False)
+
+def postPuzzle(request):
+    return JsonResponse({"method": HttpRequest.method})
+    # return JsonResponse(HttpRequest.POST['username'])

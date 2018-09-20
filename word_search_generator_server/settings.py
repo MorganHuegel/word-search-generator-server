@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'word_search',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+    'hostname.example.com' #insert live app here when it is deployed
+)
+
+CSRF_TRUSTED_ORIGINS = (
+    'localhost:3000',
+    'hostname.example.com' #insert live app here when it is deployed
+)
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
