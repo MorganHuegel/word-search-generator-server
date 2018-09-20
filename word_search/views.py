@@ -40,5 +40,5 @@ def getOnePuzzle(request, puzzle_id):
         }, safe=False)
 
 def postPuzzle(request):
-    return JsonResponse({"method": HttpRequest.method})
+    return JsonResponse({"method": "Test Method"})
     # return JsonResponse(HttpRequest.POST['username'])
