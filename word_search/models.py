@@ -32,6 +32,9 @@ class Row(models.Model):
     puzzle = models.ForeignKey(Puzzle, on_delete=models.CASCADE)
     def getCells(self):
         return self.cell_set.all()
+    
+    def __str__(self):
+        return "Row of %s" % self.puzzle
 
 class Cell(models.Model):
     row = models.ForeignKey(Row, on_delete=models.CASCADE)
@@ -43,7 +46,7 @@ class Cell(models.Model):
 '''
 python3 manage.py shell
 
-from word_search.models import Puzzle, Word, Matrix, Row, Cell
+from word_search.models import Puzzle, Word, Row, Cell
 from django.utils import timezone
 p = Puzzle(title="First Puzzle", creationDate=timezone.now())
 p.save()
@@ -82,5 +85,23 @@ Puzzles.objects.filter(pk=2).delete()   <-- how to Delete Puzzles
 
 
 Cell.objects.create(row=Row.objects.get(pk=2), value='J')  <--create will return the new object
+
+
+for i in range(len(mat)):
+    dbRow = Row.objects.filter(puzzle=3)[i]
+    for letter in mat[i]:
+        Cell.objects.create(row=dbRow, value=letter)
+
+
+mat = [['u', 'y', 'g', 'z', 'z', 'z', 'z', 'z'],
+ ['s', 'g', 'a', 'o', 'l', 'm', 'p', 'y'],
+ ['u', 'c', 'y', 'o', 'd', 't', 'm', 'b'],
+ ['c', 'i', 'b', 'f', 'e', 'r', 'i', 'f'],
+ ['b', 'p', 'y', 'r', 'r', 'a', 'h', 'b'],
+ ['c', 'k', 'v', 'c', 'f', 'e', 'c', 'o'],
+ ['r', 'h', 'u', 'k', 'l', 'h', 'y', 's'],
+ ['t', 's', 'r', 'x', 'a', 'b', 'a', 'h']]
+
+newWordList = ['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz']
 '''
 
