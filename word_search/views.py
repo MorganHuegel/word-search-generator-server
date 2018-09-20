@@ -1,6 +1,9 @@
+import json
+from django.utils import timezone
 from django.shortcuts import render
 from django.http import JsonResponse, HttpRequest, HttpResponse
-from .models import Puzzle
+from .models import Puzzle, Word, Row, Cell
+from .algorithm import generateWordSearchHard
 
 # Create your views here.
 def getAllPuzzles(request):
@@ -40,5 +43,26 @@ def getOnePuzzle(request, puzzle_id):
         }, safe=False)
 
 def postPuzzle(request):
-    return JsonResponse({"method": "Test Method"})
+    bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
+    bodyData = json.loads(bodyUnicode) #decodes string into dictionary
+
+    # {title: 'TITLE HERE', words: ['', '', ''], length: 5}   <-- incoming request body formatted like this
+
+    newPuzzle = Puzzle.objects.create(
+        title=bodyData['title'], 
+        creationDate=timezone.now(), 
+        length=bodyData['length']
+    )
+    for word in bodyData['words']:
+        Word.objects.create(puzzle=newPuzzle, word=word)
+    
+    newMatrix = generateWordSearchHard(bodyData['words'], bodyData['length'])
+    for row in newMatrix:
+        r = Row.objects.create(puzzle=newPuzzle)
+        for letter in row:
+            Cell.objects.create(row=r, value=letter)
+
+    return JsonResponse({
+        "id": newPuzzle.id
+        }, safe=False)
     # return JsonResponse(HttpRequest.POST['username'])
