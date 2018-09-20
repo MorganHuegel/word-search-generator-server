@@ -55,8 +55,6 @@ def postPuzzle(request):
     bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
     bodyData = json.loads(bodyUnicode) #decodes string into dictionary
 
-    # {title: 'TITLE HERE', words: ['', '', ''], length: 5}   <-- incoming request body formatted like this
-
     newPuzzle = Puzzle.objects.create(
         title=bodyData['title'], 
         creationDate=timezone.now(), 
@@ -65,7 +63,21 @@ def postPuzzle(request):
     for word in bodyData['words']:
         Word.objects.create(puzzle=newPuzzle, word=word)
     
-    newMatrix = generateWordSearchHard(bodyData['words'], bodyData['length'])
+    try:
+        #Try to generate puzzle 3 times before concluding that it must be impossible
+        for i in range(3):
+            newMatrix = generateWordSearchHard(bodyData['words'], bodyData['length'])
+            if newMatrix:
+                break
+            elif i == 2:
+                raise ValueError
+    except ValueError:
+        res = HttpResponse()
+        res.status_code = 400
+        res.reason_phrase = 'NOT CREATED. Try shorter words or a larger puzzle size.'
+        Puzzle.objects.get(pk=newPuzzle.id).delete()
+        return res
+
     for row in newMatrix:
         r = Row.objects.create(puzzle=newPuzzle)
         for letter in row:
