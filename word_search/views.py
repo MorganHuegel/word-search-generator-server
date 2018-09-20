@@ -4,12 +4,16 @@ from .models import Puzzle
 
 # Create your views here.
 def getAllPuzzles(request):
-    dummyData = [
-        {"title": "Hello World!"}, 
-        {"title": "Hello Mars!"}, 
-        {"title": "Hello Jupiter!"}, 
-    ]
-    return JsonResponse(dummyData, safe=False)
+    allPuzzles = Puzzle.objects.all()
+    data = []
+    for puzzle in allPuzzles:
+        onePuzzle = {"title": puzzle.title, "wordList": []}
+        words = puzzle.getWordList()
+        for word in words:
+            onePuzzle["wordList"].append(word.word)
+        data.append(onePuzzle)
+        
+    return JsonResponse(data, safe=False)
     
     
     
