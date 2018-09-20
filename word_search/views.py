@@ -20,8 +20,14 @@ def getAllPuzzles(request):
     
     
     
+
 def getOnePuzzle(request, puzzle_id):
-    currentPuzzle = Puzzle.objects.get(pk=puzzle_id)
+    try:
+        currentPuzzle = Puzzle.objects.get(pk=puzzle_id)
+    except:
+        res = HttpResponse()
+        res.status_code = 404
+        return res
 
     wordList = []
     for word in currentPuzzle.getWordList():
@@ -41,6 +47,9 @@ def getOnePuzzle(request, puzzle_id):
         "words": wordList,
         "puzzle": matrix
         }, safe=False)
+
+
+
 
 def postPuzzle(request):
     bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
@@ -65,4 +74,35 @@ def postPuzzle(request):
     return JsonResponse({
         "id": newPuzzle.id
         }, safe=False)
-    # return JsonResponse(HttpRequest.POST['username'])
+
+
+
+def editPuzzle(request, puzzle_id):
+    bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
+    bodyData = json.loads(bodyUnicode) #decodes string into dictionary
+
+    try:
+        p = Puzzle.objects.get(pk=puzzle_id)
+        p.title = bodyData['title']
+        p.save()
+    except:
+        res = HttpResponse()
+        res.ok = False
+        res.status_code = 404
+        return res
+
+    return JsonResponse(bodyData, safe=False)
+
+
+def deletePuzzle(request, puzzle_id):
+    try:
+        Puzzle.objects.get(pk=puzzle_id).delete()
+    except:
+        res = HttpResponse()
+        res.ok = False
+        res.status_code = 404
+        return res
+
+    res = HttpResponse()
+    res.status_code = 204
+    return res
