@@ -25,7 +25,12 @@ SECRET_KEY = 'cvxqglc%&brpla7#&a^f5lgypxma^2q2lwgqvk21g%i8m=48l5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []  <--what it came with
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'https://word-search-server.herokuapp.com/'
+]
 
 
 # Application definition
@@ -43,12 +48,12 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
-    'hostname.example.com' #insert live app here when it is deployed
+    'https://word-search-generator.netlify.com/' #insert live app here when it is deployed
 )
 
 CSRF_TRUSTED_ORIGINS = (
     'localhost:3000',
-    'hostname.example.com' #insert live app here when it is deployed
+    'https://word-search-generator.netlify.com/' #insert live app here when it is deployed
 )
 
 MIDDLEWARE = [
