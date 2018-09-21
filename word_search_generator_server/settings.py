@@ -86,10 +86,20 @@ WSGI_APPLICATION = 'word_search_generator_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ositffeh',
+        'USER': 'ositffeh',
+        'PASSWORD': 'PDRH4rCgcF3J4u5GY5xI4TcIyF0nOf6m',
+        'HOST': 'baasu.db.elephantsql.com',
+        'PORT': '5432',
     }
 }
 
