@@ -29,7 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'https://word-search-server.herokuapp.com/'
+    'https://word-search-server.herokuapp.com/',
+    'https://word-search-server.herokuapp.com'
 ]
 
 
@@ -46,10 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    'https://word-search-generator.netlify.com/' #insert live app here when it is deployed
-)
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:3000',
+#     'https://word-search-generator.netlify.com/', #insert live app here when it is deployed
+#     'https://word-search-generator.netlify.com',
+#     'word-search-generator.netlify.com'
+# )
 
 CSRF_TRUSTED_ORIGINS = (
     'localhost:3000',
@@ -146,3 +151,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Configure Django App for Heroku
+import django_heroku
+django_heroku.settings(locals())
