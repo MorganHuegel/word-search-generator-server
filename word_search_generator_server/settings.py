@@ -49,7 +49,9 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
-    'https://word-search-generator.netlify.com/' #insert live app here when it is deployed
+    'https://word-search-generator.netlify.com/', #insert live app here when it is deployed
+    'https://word-search-generator.netlify.com',
+    'word-search-generator.netlify.com'
 )
 
 CSRF_TRUSTED_ORIGINS = (
