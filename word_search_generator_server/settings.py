@@ -47,12 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    'https://word-search-generator.netlify.com/', #insert live app here when it is deployed
-    'https://word-search-generator.netlify.com',
-    'word-search-generator.netlify.com'
-)
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:3000',
+#     'https://word-search-generator.netlify.com/', #insert live app here when it is deployed
+#     'https://word-search-generator.netlify.com',
+#     'word-search-generator.netlify.com'
+# )
 
 CSRF_TRUSTED_ORIGINS = (
     'localhost:3000',
