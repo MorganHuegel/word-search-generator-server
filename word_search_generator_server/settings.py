@@ -29,7 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'https://word-search-server.herokuapp.com/'
+    'https://word-search-server.herokuapp.com/',
+    'https://word-search-server.herokuapp.com'
 ]
 
 
@@ -146,3 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Configure Django App for Heroku
+import django_heroku
+django_heroku.settings(locals())
