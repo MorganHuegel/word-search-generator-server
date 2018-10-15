@@ -54,7 +54,7 @@ for details.
   
 #### GET one puzzles
   - Request Type: `GET`
-  - Path: `https://word-search-generator-server.herokuapp.com/puzzles/puzzleIdInteger/`
+  - Path: `https://word-search-generator-server.herokuapp.com/puzzles/<puzzleIdIntegerGoesHere>/`
   - JSON Response Body:
   ```
   {
