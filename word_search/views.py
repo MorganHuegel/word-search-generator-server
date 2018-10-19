@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpRequest, HttpResponse
 from .models import Puzzle, Word, Row, Cell
 from .algorithm import generateWordSearchHard
+from .solving_algorithm import solver
 
 # Create your views here.
 def getAllPuzzles(request):
@@ -89,6 +90,26 @@ def postPuzzle(request):
 
 
 
+
+
+def findWord(request):
+    bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
+    bodyData = json.loads(bodyUnicode) #decodes string into dictionary
+    print('BODY DATA',bodyData)
+
+    positions = solver(bodyData['word'], bodyData['puzzle'])
+    print('POSITIONS',positions)
+    if positions == False:
+      res = HttpResponse('That word is not in this puzzle.')
+      res.ok = False
+      res.status_code = 404
+      return res
+    return JsonResponse(positions, safe=False)
+
+
+
+
+
 def editPuzzle(request, puzzle_id):
     bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
     bodyData = json.loads(bodyUnicode) #decodes string into dictionary
@@ -104,6 +125,9 @@ def editPuzzle(request, puzzle_id):
         return res
 
     return JsonResponse(bodyData, safe=False)
+
+
+
 
 
 def deletePuzzle(request, puzzle_id):
