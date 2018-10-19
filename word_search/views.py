@@ -95,10 +95,8 @@ def postPuzzle(request):
 def findWord(request):
     bodyUnicode = request.body.decode('utf-8') #decodes bytes into string
     bodyData = json.loads(bodyUnicode) #decodes string into dictionary
-    print('BODY DATA',bodyData)
 
     positions = solver(bodyData['word'], bodyData['puzzle'])
-    print('POSITIONS',positions)
     if positions == False:
       res = HttpResponse('That word is not in this puzzle.')
       res.ok = False
